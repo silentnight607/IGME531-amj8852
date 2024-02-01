@@ -1,0 +1,33 @@
+<html>
+    <body>
+        <svg id="desOrdres" width = "1000" height = "1000"></svg>
+        <script>
+
+            const drawRect = ( x, y, width, height, stroke) => {
+                return `<rect x="${x}" y="${y}" width="${width}" height="${height}" stroke="${stroke}" fill="none" />`
+            }
+    
+            const schotterRect = ( x, y, width, height, stroke, rotate, rotateX, rotateY, scale) => {
+                return `
+                <g transform="rotate(${rotate}, ${rotateX}, ${rotateY})">
+                    ${drawRect(x + (width - ((width * scale)/2)),y + (height - ((height * scale)/2)),width * scale,height * scale,stroke)}
+                </g>`
+            }
+    
+            const makeSchotter = (rows, columns, width, height, maxRotation) => {
+                final = ``;
+
+                for(row = 1; row < rows + 1; row++){
+                    for(column = 1; column < columns + 1; column++){
+                        final += schotterRect(row * width,column * height,width,height,'red',((Math.random() * (2*maxRotation))-(maxRotation)) * column, (row * width) + (width * Math.random()), (column * height) + (height * Math.random()), 1);
+                    }
+                }
+                return final;
+            }
+    
+            const schotter = makeSchotter(10,10,50,50, 5);
+            document.querySelector('svg').innerHTML = schotter;
+    
+        </script>
+    </body>
+</html>
