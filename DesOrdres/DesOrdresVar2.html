@@ -1,0 +1,52 @@
+<html>
+    <body>
+        <svg id="desOrdres" width = "1000" height = "1000"></svg>
+        <script>
+
+            const drawRect = ( x, y, width, height, stroke) => {
+                return `<rect x="${x}" y="${y}" width="${width}" height="${height}" stroke="${stroke}" fill="none" />`
+            }
+
+            const drawCircle = (x,y,r,stroke) => {
+                return `<circle cx="${x}" cy="${y}" r="${r}" fill= "none" stroke="${stroke}" />`
+            }
+    
+            const desOrdesRect = ( x, y, width, height, stroke, rotate, scale) => {
+                return `
+                <g transform="rotate(${rotate}, ${x + (width - ((width * scale)/2))}, ${y + (height - ((height * scale)/2))})">
+                    ${drawRect(x + (width - ((width * scale)/2)),y + (height - ((height * scale)/2)),width * scale,height * scale,stroke)}
+                </g>`
+            }
+
+            const desOrdresCircle = (x,y,r,stroke,scale) => {
+                return `
+                ${drawCircle(x,y,r*scale,stroke)}
+                `
+            }
+    
+            const makeDesOrdres = (rows, columns, width, height, maxRotation) => {
+                final = ``;
+
+                for(row = 1; row < rows + 1; row++){
+                    for(column = 1; column < columns + 1; column++){
+                        fill = Math.random() * 10;
+                        for(i = 0; i < fill; i++){
+                            choice = Math.random();
+                            if(choice > .5){
+                                final += desOrdesRect(row * width,column * height,width,height,`rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`,(Math.random() * (2*maxRotation))-maxRotation, 2 * Math.random());
+                            }
+                            else{
+                                final += desOrdresCircle(row * width,column * height, width,`rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`, Math.random());
+                            }
+                        }
+                    }
+                }
+                return final;
+            }
+    
+            const desOrdes = makeDesOrdres(10,10,50,50, 20);
+            document.querySelector('svg').innerHTML = desOrdes;
+    
+        </script>
+    </body>
+</html>
